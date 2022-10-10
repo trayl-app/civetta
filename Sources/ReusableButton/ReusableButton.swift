@@ -2,10 +2,30 @@ import SwiftUI
 
 @available(iOS 13.0, macOS 10.15, *)
 public struct ReusableButton: View {
-    public init() {
-        
+    
+    let action: () -> Void
+    
+    public init(action: @escaping () -> Void) {
+        self.action = action
     }
+    
     public var body: some View {
-        Text("Reusable button")
+        Button("Click Me", action: action)
+            .buttonStyle(CustomButtonStyle())
+    }
+}
+
+@available(iOS 13.0, macOS 10.15, *)
+public struct CustomButtonStyle: ButtonStyle {
+    public func makeBody(configuration: Configuration) -> some View {
+        Group {
+            configuration.label
+                .foregroundColor(.white)
+                .padding()
+                .background(Color.red)
+                .cornerRadius(15)
+        }
+        .frame(maxWidth: .infinity, alignment: .center)
+        
     }
 }
